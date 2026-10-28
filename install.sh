@@ -2,9 +2,9 @@
 #
 # install.sh — one-shot installer for opencode-telegram-bot on a fresh Linux VPS.
 #
-# Usage:
-#   curl -fsSL https://raw.githubusercontent.com/OWNER/REPO/master/install.sh | sudo bash -s -- [options]
+# Usage (repo is PRIVATE, so clone first — a bare curl to raw.githubusercontent returns 404):
 #   sudo ./install.sh [options]
+#   gh repo clone OWNER/REPO /tmp/optb && sudo /tmp/optb/install.sh [options]
 #
 # Options:
 #   --user <name>     Service user to run the bot (default: current sudo user, else "oc")
