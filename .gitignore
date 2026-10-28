@@ -1,0 +1,39 @@
+# dependencies
+node_modules/
+.npm/
+packages/
+.pnp
+.pnp.*
+
+# env & secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# logs
+*.log
+logs/
+news_update.log
+
+# runtime data
+data/
+tmp/
+tmp-*/
+.cache/
+.DS_Store
+
+# editor / OS
+.vscode/
+.idea/
+*.swp
+*~
+Thumbs.db
+
+# build / misc
+dist/
+build/
+coverage/
+*.bak
+*.bak[0-9]*
