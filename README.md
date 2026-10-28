@@ -11,20 +11,11 @@ Telegram bot (Telegraf) that drives an `opencode` CLI session on a host machine:
 
 ## Quick install (VPS)
 
-The repo is **private**, so raw one-liner installs return 404. Get the script first:
+One command on a fresh Debian/Ubuntu/RHEL/Fedora/Alpine box:
 
 ```bash
-# with gh CLI
-gh repo clone naufalalamsyah453/opencode-telegram-bot /tmp/optb
-sudo /tmp/optb/install.sh --user "$(id -un)"
-
-# or with a token
-curl -fsSL -H "Authorization: token $GITHUB_TOKEN" \
-  https://raw.githubusercontent.com/naufalalamsyah453/opencode-telegram-bot/master/install.sh -o install.sh
-sudo bash install.sh --user "$(id -un)"
-
-# or copy install.sh to the VPS with scp, then
-sudo ./install.sh --user "$(id -un)"
+curl -fsSL https://raw.githubusercontent.com/naufalalamsyah453/opencode-telegram-bot/master/install.sh \
+  | sudo bash -s -- --user "$(id -un)"
 ```
 
 Works on Debian/Ubuntu/RHEL/Fedora/Alpine.
