@@ -9,10 +9,52 @@ Telegram bot (Telegraf) that drives an `opencode` CLI session on a host machine:
 - [dotenv](https://github.com/motdotla/dotenv) — env loading
 - [indo-news-scraper](https://www.npmjs.com/package/indo-news-scraper) — Indonesian news feeds
 
-## Setup
+## Quick install (VPS)
+
+One command on a fresh Debian/Ubuntu/RHEL/Fedora/Alpine box:
 
 ```bash
-git clone <repo-url> opencode-telegram-bot
+curl -fsSL https://raw.githubusercontent.com/naufalalamsyah453/opencode-telegram-bot/master/install.sh \
+  | sudo bash -s -- --user "$(id -un)"
+```
+
+The installer:
+
+- installs `git`, `curl`, `ca-certificates`, Node.js >= 20 (NodeSource on Debian-family)
+- installs the `opencode` CLI for the service user
+- clones the repo to `/opt/opencode-telegram-bot`
+- runs `npm install`
+- creates `.env` (prompts for `BOT_TOKEN` + `AUTHORIZED_USER_ID`, mode `600`)
+- writes and starts the `opencode-telegram-bot` systemd service
+
+Re-running is safe: it updates the checkout and reinstalls dependencies.
+
+```bash
+sudo ./install.sh --help
+```
+
+| Option | Description |
+| --- | --- |
+| `--user <name>` | Service user (default: sudo user, else `oc`) |
+| `--dir <path>` | Install dir (default: `/opt/opencode-telegram-bot`) |
+| `--repo <url>` | Git repo to clone |
+| `--branch <name>` | Git branch (default: `master`) |
+| `--env-file <path>` | Copy an existing `.env` instead of prompting |
+| `--no-service` | Skip systemd unit |
+| `--no-opencode` | Skip opencode CLI install |
+
+After install, authenticate opencode and set a model:
+
+```bash
+sudo -u <user> -H opencode auth login
+sudo -u <user> -H nano ~/.config/opencode/opencode.json
+journalctl -u opencode-telegram-bot -f
+```
+
+### Manual setup
+
+```bash
+git clone https://github.com/naufalalamsyah453/opencode-telegram-bot.git
 cd opencode-telegram-bot
 npm install
 cp .env.example .env
@@ -41,12 +83,11 @@ All config comes from `.env` (see `.env.example`):
 
 ## Run as a service
 
-`opencode-telegram-bot.service` is a systemd unit. Adjust `User`, `WorkingDirectory`, and paths, then:
+`install.sh` writes `/etc/systemd/system/opencode-telegram-bot.service` for you. To manage it:
 
 ```bash
-sudo cp opencode-telegram-bot.service /etc/systemd/system/
-sudo systemctl daemon-reload
-sudo systemctl enable --now opencode-telegram-bot
+sudo systemctl status opencode-telegram-bot
+sudo systemctl restart opencode-telegram-bot
 journalctl -u opencode-telegram-bot -f
 ```
 
